@@ -8,9 +8,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Chesslab.Dao;
 using Chesslab.Models;
+using Chesslab.Service;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using ParseApi.Services;
 
 namespace Chesslab
 {
@@ -29,6 +32,8 @@ namespace Chesslab
             services.AddDbContext<ApplicationContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddTransient<IMessageEmailService, EmailService>();
+            services.AddTransient<IUserRepository, UserRepository>();
             services.AddIdentity<User, IdentityRole>(opts =>
                 {
                     opts.Password.RequiredLength = 5;   
@@ -38,7 +43,8 @@ namespace Chesslab
                     opts.Password.RequireDigit = false; 
 
                 })
-                .AddEntityFrameworkStores<ApplicationContext>();
+                .AddEntityFrameworkStores<ApplicationContext>()
+                .AddDefaultTokenProviders();
 
             services.AddControllersWithViews();
         }
