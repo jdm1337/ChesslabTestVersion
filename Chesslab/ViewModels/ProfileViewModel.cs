@@ -7,5 +7,9 @@ namespace Chesslab.ViewModels
 {
     public class ProfileViewModel
     {
+        public string NickName { get; set; }
+        public int TaskRating { get; set; }
+
+        public decimal Level { get; set; }
     }
 }

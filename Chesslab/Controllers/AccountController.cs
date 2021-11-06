@@ -56,19 +56,10 @@ namespace Chesslab.Controllers
                 {
                     if (_userByName == null)
                     {
-
                         User user = new User {Email = model.Email, UserName = model.Email, NickName = model.NickName};
 
-
-                        //StringBuilder sb = new StringBuilder();
                         var result = await _userManager.CreateAsync(user, model.Password);
-                        //var errors = result.Errors;
-                        //foreach (var error in errors)
-                        // {
-                        //     sb.Append(error.Code + " " + error.Description);
-                        // }
-
-                        // return Content(sb.ToString());
+                        
 
                         if (result.Succeeded)
                         {
@@ -165,13 +156,7 @@ namespace Chesslab.Controllers
                     {
                         return RedirectToAction("Index", "Home");
                     }
-                    if (!await _userManager.IsEmailConfirmedAsync(user))
-                    {
-
-                        ViewBag.MessageUnConfirmedUser = "Пользователь неподтверждён";
-
-                        return RedirectToAction("Index", "Home");
-                    }
+                    
                 }
                 else
                 {
@@ -189,11 +174,12 @@ namespace Chesslab.Controllers
         }
 
         [HttpGet]
-        
-        public async Task<IActionResult> Profile()
+        [Authorize]
+        public async Task<IActionResult> Profile(string id)
         {
+            ProfileViewModel profileViewModel = ProfileViewModelBuilder.Build(id);
             
-            return View();
+            return View(profileViewModel);
         }
 
         [HttpGet]

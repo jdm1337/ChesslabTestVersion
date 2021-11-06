@@ -37,6 +37,7 @@ namespace Chesslab
                 {
                     options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
                 });
+            services.AddTransient<ProfileViewModelBuilder>();
             services.AddTransient<IMessageEmailService, EmailService>();
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddIdentity<User, IdentityRole>(opts =>
