@@ -35,7 +35,7 @@ namespace Chesslab.Controllers
         }
 
         [HttpGet]
-
+        [AllowAnonymous]
         public IActionResult Register()
         {
             return View();
@@ -129,12 +129,14 @@ namespace Chesslab.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult Login(string returnUrl = null)
         {
             return View(new LoginViewModel { ReturnUrl = returnUrl });
         }
 
         [HttpPost]
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
@@ -184,6 +186,14 @@ namespace Chesslab.Controllers
             // удаляем аутентификационные куки
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
+        
+        public async Task<IActionResult> Profile()
+        {
+            
+            return View();
         }
 
         [HttpGet]
