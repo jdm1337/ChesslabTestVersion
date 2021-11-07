@@ -56,6 +56,7 @@ namespace Chesslab.Controllers
                 {
                     if (_userByName == null)
                     {
+                        //add createtimeservice, taskrating default value
                         User user = new User {Email = model.Email, UserName = model.Email, NickName = model.NickName};
 
                         var result = await _userManager.CreateAsync(user, model.Password);
@@ -166,6 +167,7 @@ namespace Chesslab.Controllers
             return View(model);
         }
 
+        [Authorize]
         public async Task<IActionResult> Logout()
         {
             // удаляем аутентификационные куки
@@ -175,9 +177,10 @@ namespace Chesslab.Controllers
 
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> Profile(string id)
+        public async Task<IActionResult> Profile()
         {
-            ProfileViewModel profileViewModel = ProfileViewModelBuilder.Build(id);
+            var user = await _userManager.GetUserAsync(User);
+            ProfileViewModel profileViewModel = await ProfileViewModelBuilder.Build(user);
             
             return View(profileViewModel);
         }

@@ -10,6 +10,11 @@ namespace Chesslab.ViewModels
         public string NickName { get; set; }
         public int TaskRating { get; set; }
 
+        public string Location { get; set;}
         public decimal Level { get; set; }
+
+        public string About { get; set; }
+
+        public string Status { get; set; }
     }
 }
