@@ -15,4 +15,11 @@
     <PackageReference Include="MimeKit" Version="2.15.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="LocalStorage\UserInfo\Avatars\" />
+    <Folder Include="LocalStorage\Articles\" />
+    <Folder Include="LocalStorage\Tasks\" />
+    <Folder Include="LocalStorage\UserInfo\AboutUser\" />
+  </ItemGroup>
+
 </Project>

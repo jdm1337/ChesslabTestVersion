@@ -56,8 +56,7 @@ namespace Chesslab.Controllers
                 {
                     if (_userByName == null)
                     {
-                        //add createtimeservice, taskrating default value
-                        User user = new User {Email = model.Email, UserName = model.Email, NickName = model.NickName};
+                        User user = new User {Email = model.Email, UserName = model.Email, NickName = model.NickName, RegisterDate = DateTime.Today};
 
                         var result = await _userManager.CreateAsync(user, model.Password);
                         
@@ -166,7 +165,7 @@ namespace Chesslab.Controllers
             }
             return View(model);
         }
-
+        
         [Authorize]
         public async Task<IActionResult> Logout()
         {
@@ -183,6 +182,12 @@ namespace Chesslab.Controllers
             ProfileViewModel profileViewModel = await ProfileViewModelBuilder.Build(user);
             
             return View(profileViewModel);
+        }
+        [Authorize]
+        public async Task<IActionResult> Edit()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            return View(user);
         }
 
         [HttpGet]
