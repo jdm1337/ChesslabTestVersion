@@ -49,7 +49,7 @@ namespace Chesslab.Controllers
             var _userByName = await _userRepository.GetByName(model.NickName);
             var _userByEmail = await _userRepository.GetByEmail(model.Email);
 
-
+            // model validation from register view model
             if (ModelState.IsValid)
             {
                 if (_userByEmail == null)
