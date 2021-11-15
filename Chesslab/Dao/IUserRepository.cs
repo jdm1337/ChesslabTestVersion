@@ -22,6 +22,8 @@ namespace Chesslab.Dao
 
         Task<User> EditNickName(User user, string name);
 
+        Task<User> EditLocation(User user, string location);
+
         Task Delete(string id);
 
         Task Save();

@@ -16,10 +16,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="LocalStorage\UserInfo\Avatars\" />
     <Folder Include="LocalStorage\Articles\" />
     <Folder Include="LocalStorage\Tasks\" />
     <Folder Include="LocalStorage\UserInfo\AboutUser\" />
+    <Folder Include="LocalStorage\UserInfo\Avatars\Default\" />
   </ItemGroup>
 
 </Project>

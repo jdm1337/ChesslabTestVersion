@@ -79,6 +79,14 @@ namespace Chesslab.Dao
             return  null;
         }
 
+        public async Task<User> EditLocation(User user, string location)
+        {
+            var _user = await _appContext.Users.FirstOrDefaultAsync(u => u.Id == user.Id);
+            _user.Location = location;
+            _appContext.Users.Update(user);
+            return _user;
+        }
+
         public async Task Delete(string id)
         {
             await _appContext.Users.FirstOrDefaultAsync(u => u.Id == id);

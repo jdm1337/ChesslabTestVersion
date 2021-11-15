@@ -1,2 +1,16 @@
-﻿@model Chesslab.Models.User
+﻿@model Chesslab.ViewModels.EditViewModel
+
+<form asp-action="Edit" asp-controller="Account" method="post" enctype="multipart/form-data">
+    <div asp-validation-summary="ModelOnly"></div>
+    <h4>Аватар</h4>
+    <input type="file" name="UploadedAvatar" /><br>
+    <h4>Имя пользователя</h4>
+    <p>@Model.NickName -> <input type="text" name="NickName" /> </p>
+    <h4>Обо мне</h4>
+    <p>@Model.About -> <textarea name="About"></textarea> </p>
+    <h4>Местоположение</h4>
+    <p>@Model.Location -> <input type="text" name="Location" /> </p>
+    <input type="submit" value="Сохранить" />
+</form>
+
 

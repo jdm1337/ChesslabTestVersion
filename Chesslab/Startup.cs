@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Chesslab.Configurations;
 using Chesslab.Dao;
 using Chesslab.Models;
 using Chesslab.Service;
@@ -30,6 +31,7 @@ namespace Chesslab
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<StorageConfiguration>(Configuration.GetSection("LocalStorage"));
             services.AddDbContext<ApplicationContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -40,6 +42,7 @@ namespace Chesslab
             services.AddTransient<ProfileViewModelBuilder>();
             services.AddTransient<IMessageEmailService, EmailService>();
             services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<AvatarService>();
             services.AddIdentity<User, IdentityRole>(opts =>
                 {
                     opts.Password.RequiredLength = 5;   

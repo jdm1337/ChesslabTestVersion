@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Security;
 using System.Threading.Channels;
 using System.Threading.Tasks;
+using Chesslab.Configurations;
 using Chesslab.Dao;
 using Chesslab.Models;
 using Chesslab.Service;
@@ -22,15 +23,18 @@ namespace Chesslab.Controllers
         private readonly SignInManager<User> _signInManager;
         private readonly IUserRepository _userRepository;
         private readonly IMessageEmailService _messageEmailService;
+        private readonly StorageConfiguration _storageConfiguration;
         private const string role = "user";
 
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, IMessageEmailService emailService,
+        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, IMessageEmailService emailService, StorageConfiguration storageConfiguration,
             IUserRepository userRepository)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _messageEmailService = emailService;
             _userRepository = userRepository;
+            _storageConfiguration = storageConfiguration;
+
 
         }
 
@@ -44,8 +48,6 @@ namespace Chesslab.Controllers
         [HttpPost("register")]
         public async Task<ActionResult<User>> Register(RegisterViewModel model)
         {
-
-
             var _userByName = await _userRepository.GetByName(model.NickName);
             var _userByEmail = await _userRepository.GetByEmail(model.Email);
 
@@ -56,7 +58,7 @@ namespace Chesslab.Controllers
                 {
                     if (_userByName == null)
                     {
-                        User user = new User {Email = model.Email, UserName = model.Email, NickName = model.NickName, RegisterDate = DateTime.Today};
+                        User user = new User {Email = model.Email, UserName = model.Email, NickName = model.NickName, RegisterDate = DateTime.Today, Location = "Earth"};
 
                         var result = await _userManager.CreateAsync(user, model.Password);
                         
@@ -183,11 +185,48 @@ namespace Chesslab.Controllers
             
             return View(profileViewModel);
         }
+        [HttpGet]
         [Authorize]
         public async Task<IActionResult> Edit()
         {
             var user = await _userManager.GetUserAsync(User);
-            return View(user);
+            var editViewModel = new EditViewModel
+                {NickName = user.NickName, About = user.About, Location = user.Location, UserView = user};
+            
+            return View(editViewModel);
+        }
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(EditViewModel editViewModel)
+        {
+            Console.WriteLine(editViewModel.NickName);
+            var user = await _userManager.GetUserAsync(User);
+            
+            if (editViewModel.NickName != null)
+            {
+                var userByName = await _userRepository.GetByName(editViewModel.NickName);
+                Console.WriteLine(userByName);
+                if(userByName == null)
+                {
+                     await _userRepository.EditNickName(user, editViewModel.NickName);
+                     await _userRepository.Save();
+                     
+                }
+                else
+                {
+                    ModelState.AddModelError("", "пользователь с таким именем уже существует");
+                    return View(editViewModel);
+                }
+            }
+            if(editViewModel.Location!= null)
+            {
+                await _userRepository.EditLocation(user, editViewModel.Location);
+                await _userRepository.Save();
+            }
+            //realization avatar and about service and finish the proccesse of edit user
+           
+            return RedirectToAction("profile");
         }
 
         [HttpGet]
