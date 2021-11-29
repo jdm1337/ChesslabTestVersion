@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Security;
 using System.Threading.Channels;
@@ -12,6 +13,7 @@ using Chesslab.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using ParseApi.Services;
 
 namespace Chesslab.Controllers
@@ -23,19 +25,19 @@ namespace Chesslab.Controllers
         private readonly SignInManager<User> _signInManager;
         private readonly IUserRepository _userRepository;
         private readonly IMessageEmailService _messageEmailService;
-        private readonly StorageConfiguration _storageConfiguration;
+        private readonly LocalStorageService _localStorageService;
         private const string role = "user";
+        private string[] supportedTypes = new[] { "jpg", "jpeg", "png", "bmp" };
+
 
         public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, IMessageEmailService emailService, StorageConfiguration storageConfiguration,
-            IUserRepository userRepository)
+            IUserRepository userRepository, LocalStorageService localStorageService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _messageEmailService = emailService;
             _userRepository = userRepository;
-            _storageConfiguration = storageConfiguration;
-
-
+            _localStorageService = localStorageService;
         }
 
         [HttpGet]
@@ -198,11 +200,11 @@ namespace Chesslab.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
+        [RequestSizeLimit(4194304)]
         public async Task<IActionResult> Edit(EditViewModel editViewModel)
         {
-            Console.WriteLine(editViewModel.NickName);
             var user = await _userManager.GetUserAsync(User);
-            
+
             if (editViewModel.NickName != null)
             {
                 var userByName = await _userRepository.GetByName(editViewModel.NickName);
@@ -211,7 +213,6 @@ namespace Chesslab.Controllers
                 {
                      await _userRepository.EditNickName(user, editViewModel.NickName);
                      await _userRepository.Save();
-                     
                 }
                 else
                 {
@@ -219,12 +220,32 @@ namespace Chesslab.Controllers
                     return View(editViewModel);
                 }
             }
+
             if(editViewModel.Location!= null)
             {
                 await _userRepository.EditLocation(user, editViewModel.Location);
                 await _userRepository.Save();
             }
-            //realization avatar and about service and finish the proccesse of edit user
+
+            if (editViewModel.UploadedAvatar != null)
+            {
+                var fileExtension = Path.GetExtension(editViewModel.UploadedAvatar.FileName).Substring(1);
+                if (supportedTypes.Contains(fileExtension.ToLower()))
+                {
+                    await _localStorageService.UploadAvatar(editViewModel.UploadedAvatar, User);
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Неподдерживаемый тип изображения");
+                    return View(editViewModel);
+                }
+            }
+
+            if (editViewModel.About != null)
+            {
+                await _localStorageService.UploadAbout(editViewModel.About, User);
+            }
+            //realization avatar and about service and finish the proccese of edit user
            
             return RedirectToAction("profile");
         }
@@ -256,6 +277,9 @@ namespace Chesslab.Controllers
             }
 
         }
+
     }
+
+    
 }
 

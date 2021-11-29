@@ -87,6 +87,14 @@ namespace Chesslab.Dao
             return _user;
         }
 
+        public async Task<User> EditAvatar(User user, string avatarLink)
+        {
+            var _user = await _appContext.Users.FirstOrDefaultAsync(u => u.Id == user.Id);
+            _user.Avatar = avatarLink;
+            _appContext.Users.Update(user);
+            return _user;
+        }
+
         public async Task Delete(string id)
         {
             await _appContext.Users.FirstOrDefaultAsync(u => u.Id == id);
