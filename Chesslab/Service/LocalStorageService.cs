@@ -23,6 +23,7 @@ namespace Chesslab.Service
         private readonly ApplicationContext _appContext;
 
 
+
         public LocalStorageService(UserManager<User> userManager, StorageConfiguration storageConfiguration, ApplicationContext appContext, IUserRepository userRepository)
         {
             _userManager = userManager;
@@ -30,17 +31,18 @@ namespace Chesslab.Service
 
         }
 
-        public async Task UploadAvatar(IFormFile image, ClaimsPrincipal claimUser )
+        public async Task UploadAvatar(IFormFile image, ClaimsPrincipal claimUser, string fileExtension )
         {
             //avatar upload realization
             try
             {
                 var currentUser = await _userManager.GetUserAsync(claimUser);
-                string userAvatarUploadPath = Environment.CurrentDirectory + _storageConfiguration.UserInfo + AvatarPart;
+                string relativePath = _storageConfiguration.UserInfo + AvatarPart;
+                string fileName = currentUser.Id + "." + fileExtension;
 
-                var fileStream = new FileStream(userAvatarUploadPath + currentUser.Id + image.FileName, FileMode.Create);
+                var fileStream = new FileStream(Environment.CurrentDirectory + relativePath + fileName, FileMode.Create);
                 await image.CopyToAsync(fileStream); 
-                currentUser.Avatar = currentUser.Id+image.FileName;
+                currentUser.Avatar = relativePath + fileName;
                 await _userManager.UpdateAsync(currentUser);
                 
 
@@ -51,7 +53,7 @@ namespace Chesslab.Service
             }
 
         }
-
+        //will do in the future
         public async Task DownloadAvatar(ClaimsPrincipal claimUser)
         {
 
@@ -61,13 +63,15 @@ namespace Chesslab.Service
         {
             try
             {
+                Console.WriteLine(textAbout);
                 var currentUser = await _userManager.GetUserAsync(claimUser);
-                string userAvatarUploadPath = Environment.CurrentDirectory + _storageConfiguration.UserInfo + AboutPart;
+                string relativePath = _storageConfiguration.UserInfo + AboutPart;
+                string fileName = currentUser.Id + ".txt";
                 using (var fileStream =
-                    new FileStream(userAvatarUploadPath + currentUser.Id + ".txt", FileMode.OpenOrCreate))
+                    new FileStream(Environment.CurrentDirectory + relativePath + fileName, FileMode.Create))
                 {
                     byte[] array = Encoding.Default.GetBytes(textAbout);
-                    currentUser.About = currentUser.Id + ".txt";
+                    currentUser.About = relativePath + fileName;
                     await fileStream.WriteAsync(array, 0, array.Length);
                 }
                 await _userManager.UpdateAsync(currentUser);
@@ -76,6 +80,27 @@ namespace Chesslab.Service
             {
                 Console.WriteLine(ex.Message);
             }
+        }
+
+        public async Task<string> DownloadAbout(User user)
+        {
+            try
+            {
+                using (FileStream fstream = File.OpenRead(Environment.CurrentDirectory + user.About))
+                {
+
+                    byte[] array = new byte[fstream.Length];
+                    fstream.Read(array, 0, array.Length);
+                    string textFromFile = Encoding.Default.GetString(array);
+                    return textFromFile;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return null;
         }
     }
 }

@@ -9,16 +9,23 @@ namespace Chesslab.Service
 {
     public class ProfileViewModelBuilder
     {
-        public static async Task<ProfileViewModel> Build(User user )
+        private readonly LocalStorageService _localStorageService;
+        public ProfileViewModelBuilder(LocalStorageService localStorageService)
+        {
+            _localStorageService = localStorageService;
+        }
+
+        public  async Task<ProfileViewModel> Build(User user )
         {
             return await MapToProfileViewModel(user);
         }
 
-        public static async Task<ProfileViewModel> MapToProfileViewModel(User user)
+        public  async Task<ProfileViewModel> MapToProfileViewModel(User user)
         {
             ProfileViewModel profileViewModel = new ProfileViewModel()
             {
-                About = user.About,
+                //avatar set here after download method realization and find out the approach of rendering user avatar
+                About = await _localStorageService.DownloadAbout(user),
                 Level = user.Level,
                 Location = user.Location,
                 NickName = user.NickName,

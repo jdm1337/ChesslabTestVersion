@@ -26,18 +26,20 @@ namespace Chesslab.Controllers
         private readonly IUserRepository _userRepository;
         private readonly IMessageEmailService _messageEmailService;
         private readonly LocalStorageService _localStorageService;
+        private readonly ProfileViewModelBuilder _profileViewModelBuilder;
         private const string role = "user";
         private string[] supportedTypes = new[] { "jpg", "jpeg", "png", "bmp" };
 
 
         public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, IMessageEmailService emailService, StorageConfiguration storageConfiguration,
-            IUserRepository userRepository, LocalStorageService localStorageService)
+            IUserRepository userRepository, LocalStorageService localStorageService, ProfileViewModelBuilder profileViewModelBuilder)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _messageEmailService = emailService;
             _userRepository = userRepository;
             _localStorageService = localStorageService;
+            _profileViewModelBuilder = profileViewModelBuilder;
         }
 
         [HttpGet]
@@ -183,7 +185,7 @@ namespace Chesslab.Controllers
         public async Task<IActionResult> Profile()
         {
             var user = await _userManager.GetUserAsync(User);
-            ProfileViewModel profileViewModel = await ProfileViewModelBuilder.Build(user);
+            ProfileViewModel profileViewModel = await _profileViewModelBuilder.Build(user);
             
             return View(profileViewModel);
         }
@@ -193,7 +195,7 @@ namespace Chesslab.Controllers
         {
             var user = await _userManager.GetUserAsync(User);
             var editViewModel = new EditViewModel
-                {NickName = user.NickName, About = user.About, Location = user.Location, UserView = user};
+                {NickName = user.NickName, About = await _localStorageService.DownloadAbout(user), Location = user.Location, UserView = user};
             
             return View(editViewModel);
         }
@@ -232,7 +234,7 @@ namespace Chesslab.Controllers
                 var fileExtension = Path.GetExtension(editViewModel.UploadedAvatar.FileName).Substring(1);
                 if (supportedTypes.Contains(fileExtension.ToLower()))
                 {
-                    await _localStorageService.UploadAvatar(editViewModel.UploadedAvatar, User);
+                    await _localStorageService.UploadAvatar(editViewModel.UploadedAvatar, User, fileExtension);
                 }
                 else
                 {
