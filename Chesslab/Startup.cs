@@ -43,6 +43,7 @@ namespace Chesslab
             services.AddTransient<IMessageEmailService, EmailService>();
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<LocalStorageService>();
+            services.AddTransient<ArticleService>();
             services.AddIdentity<User, IdentityRole>(opts =>
                 {
                     opts.Password.RequiredLength = 5;   

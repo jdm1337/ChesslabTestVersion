@@ -10,6 +10,7 @@ namespace Chesslab.Models
 {
     public class ApplicationContext :IdentityDbContext<User>
     {
+        public DbSet<Article> articles { get; set; }
         public ApplicationContext(DbContextOptions options) : base(options)
         {
         }

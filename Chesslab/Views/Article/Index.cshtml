@@ -1,0 +1,80 @@
+﻿@model Chesslab.ViewModels.ArticleViewModel
+
+<style>
+    @@font-face {
+        font-family: 'FontAwesome';
+        src: url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/fonts/fontawesome-webfont.woff2') format('woff2'), 
+             url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/fonts/fontawesome-webfont.woff') format('woff'), 
+             url('https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/fonts/fontawesome-webfont.ttf') format('truetype');
+        font-weight: normal;
+        font-style: normal
+    }
+ 
+    .glyphicon {
+        display: inline-block;
+        font: normal normal normal 14px/1 FontAwesome;
+        font-size: inherit;
+        text-rendering: auto;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        
+    }
+ 
+    .glyphicon-chevron-right:before {
+        content: "\f054";
+    }
+ 
+    .glyphicon-chevron-left:before {
+        content: "\f053";
+    }
+    .row {
+        margin-left: 120px;
+    }
+    
+</style>
+<div class="row">
+        <div class="col-xs-10 col-sm-7">
+            <h1>Статьи</h1>
+            <table class="table">
+                <tr><th>Название</th><th>Автор</th><th>Дата написания</th></tr>
+                @foreach (Article a in Model.articles)
+                {
+                    <tr><td><a href="~/article/view?articleId=@a.Id">@a.Postname</a></td><td>@a.AuthorId</td><td>@a.PublishDate</td></tr>
+                }
+            </table>
+            @if (Model.PageViewModel.HasPreviousPage)
+            {
+                <a asp-action="Index"
+                   asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
+                   class="btn btn-outline-dark">
+                    <i class="glyphicon glyphicon-chevron-left"></i>
+                    Назад
+                </a>
+            }
+            @if (Model.PageViewModel.HasNextPage)
+            {
+                <a asp-action="Index"
+                   asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
+                   class="btn btn-outline-dark">
+                    Вперед
+                    <i class="glyphicon glyphicon-chevron-right"></i>
+                </a>
+            }
+        </div>
+    <div class="col-xs-10 col-sm-3">
+        <form action="~/article/search" method="post">
+            <div class="form-group">
+                <select class="form-select" aria-label="Default select example">
+                    <option selected>Выбор темы</option>
+                    <option value="1">Дебют</option>
+                    <option value="2">Миттельшпиль</option>
+                    <option value="3">"Эндшпиль"</option>
+                    <option value="4">"Турниры"</option>
+                    <option value="5">"Разбор партий"</option>
+                    <option value="6">"Рапид и блиц"</option>
+                </select>
+
+            </div>
+        </form>
+    </div>
+    </div>
