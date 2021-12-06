@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Chesslab.Models;
 using Chesslab.ViewModels;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Chesslab.Service
@@ -11,11 +12,15 @@ namespace Chesslab.Service
     public class ArticleService
     {
         private readonly ApplicationContext _appContext;
+        private readonly LocalStorageService _localStorageService;
+        private readonly UserManager<User> _userManager;
 
         private static int PageSize = 5;
-        public ArticleService(ApplicationContext appContext)
+        public ArticleService(ApplicationContext appContext, LocalStorageService localStorageService, UserManager<User> userManager)
         {
             _appContext = appContext;
+            _localStorageService = localStorageService;
+            _userManager = userManager;
         }
 
         public async Task<ArticleViewModel> GetStdArticles(int page)
@@ -44,6 +49,8 @@ namespace Chesslab.Service
             var currentArticles = await allArticles.Skip((page - 1) * PageSize).Take(PageSize).ToListAsync();
 
             PageViewModel pageViewModel = new PageViewModel(countArticles, page, PageSize);
+            
+            
             return new
                 ArticleViewModel()
             {
@@ -53,7 +60,28 @@ namespace Chesslab.Service
 
         }
 
-        
+        public async Task<bool> SaveArticle(PubReadArticleViewModel viewModel)
+        {
+            Article article = await ArticleBuilder(viewModel);
+            bool downloaded = await _localStorageService.UploadArticle(article, viewModel);
+            return downloaded;
+
+
+        }
+
+        public async Task<Article> ArticleBuilder(PubReadArticleViewModel viewModel)
+        {
+            Article article = new Article()
+            {
+                Postname = viewModel.PostName,
+                AuthorId = viewModel.Article.AuthorId,
+                PublishDate = DateTime.Now,
+                Categories = viewModel.Article.Categories,
+                AuthorName = viewModel.Article.AuthorName
+            };
+            return article;
+        }
+
     }
     
 }

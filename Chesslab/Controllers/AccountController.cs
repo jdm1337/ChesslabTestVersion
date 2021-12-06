@@ -119,7 +119,7 @@ namespace Chesslab.Controllers
             }
             else
             {
-                Console.WriteLine("хуита");
+                Console.WriteLine("bad");
                 //"Некорректные данные"
                 return View();
             }

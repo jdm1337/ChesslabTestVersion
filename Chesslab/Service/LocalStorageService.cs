@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Chesslab.Configurations;
 using Chesslab.Dao;
 using Chesslab.Models;
+using Chesslab.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 
@@ -28,6 +29,7 @@ namespace Chesslab.Service
         {
             _userManager = userManager;
             _storageConfiguration = storageConfiguration;
+            _appContext = appContext;
 
         }
 
@@ -54,11 +56,6 @@ namespace Chesslab.Service
 
         }
         //will do in the future
-        public async Task DownloadAvatar(ClaimsPrincipal claimUser)
-        {
-
-        }
-
         public async Task UploadAbout(string textAbout, ClaimsPrincipal claimUser)
         {
             try
@@ -101,6 +98,36 @@ namespace Chesslab.Service
             }
 
             return null;
+        }
+
+        public async Task<bool> UploadArticle(Article article, PubReadArticleViewModel pubReadArticleViewModel)
+        {
+            bool Isdownloaded = false;
+            try
+            {
+                await _appContext.articles.AddAsync(article);
+                await _appContext.SaveChangesAsync();
+                //var currentUser = await _userManager.GetUserAsync(claimUser);
+                string relativePath = _storageConfiguration.Article;
+                string fileName = article.Id + ".txt";
+                using (var fileStream =
+                    new FileStream(Environment.CurrentDirectory + relativePath + fileName, FileMode.Create))
+                {
+                    byte[] array = Encoding.Default.GetBytes(pubReadArticleViewModel.Content);
+                    article.LinkStorage = relativePath + fileName;
+                    Console.WriteLine(relativePath);
+                    await fileStream.WriteAsync(array, 0, array.Length);
+                }
+                Isdownloaded = true;
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Isdownloaded = false;
+            }
+
+            return Isdownloaded;
         }
     }
 }

@@ -9,7 +9,7 @@ namespace Chesslab.ViewModels
     public class LoginViewModel
     {
         [Required(ErrorMessage = "Введите email")]
-        [MaxLength(ErrorMessage = "Некорректный email")]
+        [MaxLength(50,ErrorMessage = "Некорректный email")]
         [EmailAddress(ErrorMessage = "Некорректный некорректный email")]
         [Display(Name = "Email")]
         public string Email { get; set; }

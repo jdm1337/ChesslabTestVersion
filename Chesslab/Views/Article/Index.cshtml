@@ -61,7 +61,7 @@
 
                 @foreach (Article a in Model.articles)
                 {
-                    <tr><td><a href="~/article/view?articleId=@a.Id">@a.Postname</a></td><td>@a.AuthorId</td><td>@a.PublishDate</td></tr>
+                    <tr><td><a href="~/article/view?articleId=@a.Id">@a.Postname</a></td><td>@a.AuthorName</td><td>@a.PublishDate</td></tr>
                 }
             </table>
             @if (Model.PageViewModel.HasPreviousPage)

@@ -1,0 +1,29 @@
+﻿@model Chesslab.ViewModels.PubReadArticleViewModel;
+<div class="container shadow-sm p-3 mb-5 bg-white rounded col-lg-12">
+    <h3 class="text-center">Публикация статьи</h3>
+    <form asp-action="Publish" asp-controller="Article" method="post" style="margin-top: 15px;">
+        <div asp-validation-summary="ModelOnly"></div>
+        <div class="form-group col-lg-6">
+            <label for="Postname">Название статьи</label>
+            <input type="text" class="form-control input" id="Postname" asp-for="PostName" placeholder="Испанская партия" />
+        </div>
+        <div class="form-group col-lg-3" style="margin-top: 15px;">
+            <select class="form-select " aria-label="Default select example" asp-for="@Model.Article.Categories" required="true">
+                <option selected>Выбор темы</option>
+                <option value="1">Дебют</option>
+                <option value="2">Миттельшпиль</option>
+                <option value="3">"Эндшпиль"</option>
+                <option value="4">"Турниры"</option>
+                <option value="5">"Разбор партий"</option>
+                <option value="6">"Рапид и блиц"</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <textarea class="form-control" rows="15" asp-for="Content" style="margin-top: 15px;"></textarea>
+        </div>
+        <div class="form-group-3">
+            <button class="btn btn-outline-dark" type="submit">Опубликовать</button>
+        </div>
+    </form>
+
+</div>

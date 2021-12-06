@@ -12,6 +12,7 @@ namespace Chesslab.Models
 
         public string? AuthorId { get; set; }
         public User user { get; set; }
+        public string AuthorName { get; set; }
 
         public DateTime PublishDate { get; set; }
 
