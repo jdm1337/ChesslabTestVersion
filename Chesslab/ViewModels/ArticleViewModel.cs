@@ -8,8 +8,10 @@ namespace Chesslab.ViewModels
 {
     public class ArticleViewModel
     {
-        public List<Article> articles;
-        public PageViewModel PageViewModel;
+        public List<Article> articles { get; set;}
+        public PageViewModel PageViewModel { get; set;}
+
+        public ArticleSearchViewModel ArticleSearchViewModel { get; set; }
 
     }
 }

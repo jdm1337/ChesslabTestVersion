@@ -186,7 +186,6 @@ namespace Chesslab.Controllers
         {
             var user = await _userManager.GetUserAsync(User);
             ProfileViewModel profileViewModel = await _profileViewModelBuilder.Build(user);
-            
             return View(profileViewModel);
         }
         [HttpGet]
@@ -205,6 +204,7 @@ namespace Chesslab.Controllers
         [RequestSizeLimit(4194304)]
         public async Task<IActionResult> Edit(EditViewModel editViewModel)
         {
+            Console.WriteLine(editViewModel.Location +1);
             var user = await _userManager.GetUserAsync(User);
 
             if (editViewModel.NickName != null)
@@ -225,6 +225,7 @@ namespace Chesslab.Controllers
 
             if(editViewModel.Location!= null)
             {
+                Console.WriteLine("we here");
                 await _userRepository.EditLocation(user, editViewModel.Location);
                 await _userRepository.Save();
             }

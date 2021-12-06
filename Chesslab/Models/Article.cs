@@ -16,6 +16,6 @@ namespace Chesslab.Models
         public DateTime PublishDate { get; set; }
 
         public string LinkStorage { get; set; }
-        public string Categories { get; set; }
+        public int Categories { get; set; }
     }
 }

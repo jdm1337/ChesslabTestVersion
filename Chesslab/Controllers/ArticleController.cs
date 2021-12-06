@@ -20,15 +20,17 @@ namespace Chesslab.Controllers
 
         public async Task<IActionResult> Index(int page=1)
         {
-            ArticleViewModel stdArticleViewModel = await _articleService.GetStdArticles(page);
+            var stdArticleViewModel = await _articleService.GetStdArticles(page);
             return View(stdArticleViewModel);
         }
 
         [HttpPost]
-        public async Task<IActionResult> SearchArticle()
+        public async Task<IActionResult> Index(ArticleViewModel articleViewModel, int page=1)
         {
-            return null;
-            
+            Console.WriteLine(1);
+            Console.WriteLine(articleViewModel);
+            var byParamsArticles = await _articleService.GetByParamsArticles(articleViewModel, page);
+            return View(byParamsArticles);
         }
 
         

@@ -24,6 +24,19 @@ namespace Chesslab.Service
              return await ArticleViewModelBuilder(allArticles, page);
         }
 
+        public async Task<ArticleViewModel> GetByParamsArticles(ArticleViewModel articleViewModel, int page)
+        {
+            Console.WriteLine(articleViewModel.ArticleSearchViewModel.ChosenCategory);
+            Console.WriteLine(articleViewModel.ArticleSearchViewModel.ChosenPeriod);
+            List<int> defineChosenPeriodValue = await articleViewModel.ArticleSearchViewModel.DefineChosenPeriodValue();
+            var allArticles =  _appContext.articles
+                .Where(article =>
+                    (defineChosenPeriodValue[0] <= article.PublishDate.Year) &&
+                    (article.PublishDate.Year <= defineChosenPeriodValue[1]))
+                .Where(article => article.Categories == articleViewModel.ArticleSearchViewModel.ChosenCategory);
+            return await ArticleViewModelBuilder(allArticles, page);
+        }
+
 
         public async Task<ArticleViewModel> ArticleViewModelBuilder(IQueryable<Article> allArticles, int page)
         {
@@ -39,5 +52,8 @@ namespace Chesslab.Service
             };
 
         }
+
+        
     }
+    
 }

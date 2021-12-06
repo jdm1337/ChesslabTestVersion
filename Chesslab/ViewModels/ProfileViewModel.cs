@@ -16,5 +16,7 @@ namespace Chesslab.ViewModels
         public string About { get; set; }
 
         public string Status { get; set; }
+
+        public string AvatarLink { get; set;}
     }
 }

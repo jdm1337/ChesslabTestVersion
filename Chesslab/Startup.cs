@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Chesslab.Configurations;
@@ -13,8 +14,10 @@ using Chesslab.Dao;
 using Chesslab.Models;
 using Chesslab.Service;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using ParseApi.Services;
 
 namespace Chesslab
@@ -74,6 +77,13 @@ namespace Chesslab
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                FileProvider = new PhysicalFileProvider(
+                    Path.Combine(Directory.GetCurrentDirectory(), @"")),
+                RequestPath = new PathString("/StaticFiles")
+            });
+
 
             app.UseRouting();
 

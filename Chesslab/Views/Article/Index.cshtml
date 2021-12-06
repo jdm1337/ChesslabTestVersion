@@ -29,14 +29,36 @@
     }
     .row {
         margin-left: 120px;
+        margin-top: 20px;
+    }
+    .form-group-2 {
+        margin-top: 10px;
+    }
+    .form-group-3 {
+        margin-top: 10px;
+    }
+    .btn btn-info btn-lg btn-block {
+        background: black;
+    }
+    .write-article {
+        margin-top: 10px;
+        background: white;
     }
     
 </style>
 <div class="row">
-        <div class="col-xs-10 col-sm-7">
-            <h1>Статьи</h1>
+    <div class="col-xs-10 col-sm-7">
+        <div class="shadow-sm p-3 mb-5 bg-white rounded"> 
+            <h3>Статьи</h3>
             <table class="table">
-                <tr><th>Название</th><th>Автор</th><th>Дата написания</th></tr>
+                <thead class="thead-light">
+                    <tr>
+                        <th>Название</th>
+                        <th>Автор</th>
+                        <th>Дата написания</th>
+                    </tr>
+                </thead>
+
                 @foreach (Article a in Model.articles)
                 {
                     <tr><td><a href="~/article/view?articleId=@a.Id">@a.Postname</a></td><td>@a.AuthorId</td><td>@a.PublishDate</td></tr>
@@ -61,20 +83,37 @@
                 </a>
             }
         </div>
+        </div>
     <div class="col-xs-10 col-sm-3">
-        <form action="~/article/search" method="post">
-            <div class="form-group">
-                <select class="form-select" aria-label="Default select example">
-                    <option selected>Выбор темы</option>
-                    <option value="1">Дебют</option>
-                    <option value="2">Миттельшпиль</option>
-                    <option value="3">"Эндшпиль"</option>
-                    <option value="4">"Турниры"</option>
-                    <option value="5">"Разбор партий"</option>
-                    <option value="6">"Рапид и блиц"</option>
-                </select>
+        <div class="shadow-sm p-3 mb-5 bg-white rounded">
+            <h3>Поиск статей</h3>
+            <form asp-action="index" asp-controller="Article" asp-antiforgery="true">
+                <div class="form-group">
+                    <select class="form-select" aria-label="Default select example" asp-for="ArticleSearchViewModel.ChosenCategory" required="true">
+                        <option selected>Выбор темы</option>
+                        <option value="1">Дебют</option>
+                        <option value="2">Миттельшпиль</option>
+                        <option value="3">"Эндшпиль"</option>
+                        <option value="4">"Турниры"</option>
+                        <option value="5">"Разбор партий"</option>
+                        <option value="6">"Рапид и блиц"</option>
+                    </select>
+                </div>
 
-            </div>
-        </form>
-    </div>
+                <div class="form-group-2">
+                    <select class="form-select" asp-for="ArticleSearchViewModel.ChosenPeriod" required="true">
+                        <option selected>Год написания</option>
+                        <option value="1">до 2010</option>
+                        <option value="2">от 2010 до 2015</option>
+                        <option value="3">от 2015</option>
+                    </select>
+                </div>
+                <div class="form-group-3">
+                    <button class="btn btn-outline-dark" type="submit">Искать</button>
+                </div>
+            </form>
+        </div>
+        <a class="btn btn-outline-dark write-article" href="~/article/write" role="button">Написать статью</a>
+
+        </div>
     </div>

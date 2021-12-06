@@ -117,5 +117,8 @@
   .u-section-1 .u-layout-cell-3 {
     min-height: 598px;
   }
-    
+  .form-std {
+      background: white;
+
+  }  
 }

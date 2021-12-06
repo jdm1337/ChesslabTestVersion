@@ -29,8 +29,8 @@ namespace Chesslab.Migrations
                     b.Property<string>("AuthorId")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Categories")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Categories")
+                        .HasColumnType("int");
 
                     b.Property<string>("LinkStorage")
                         .HasColumnType("nvarchar(max)");

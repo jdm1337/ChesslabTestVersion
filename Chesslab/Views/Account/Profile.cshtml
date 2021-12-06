@@ -1,4 +1,5 @@
-﻿@model Chesslab.ViewModels.ProfileViewModel;
+﻿@using System.IO;
+@model Chesslab.ViewModels.ProfileViewModel;
 @{
     Layout = null;
 }
@@ -30,11 +31,12 @@
     <meta property="og:title" content="Профиль">
     <meta property="og:type" content="website">
 </head>
-<body class="u-body">
-    <header class="u-clearfix u-header u-header" id="sec-9d5b">
+<body style="background: #F0F3F7;" class="u-body">
+    <header style="background: white
+               " class="u-clearfix u-header u-header  shadow-sm p-3 mb-5 bg-white rounded " id="sec-9d5b">
         <div class="u-clearfix u-sheet u-valign-middle u-sheet-1">
-            <a href="https://nicepage.com" class="u-image u-logo u-image-1">
-                <img src="~/images/default-logo.png" class="u-logo-image u-logo-image-1">
+            <a href="http://localhost:5000/home/index" class="u-image u-logo u-image-1">
+                <img src="~/images/logo.jpg" class="u-logo-image u-logo-image-1">
             </a>
             <nav class="u-menu u-menu-dropdown u-offcanvas u-menu-1">
                 <div class="menu-collapse" style="font-size: 1rem; letter-spacing: 0px;">
@@ -104,59 +106,70 @@
             </nav>
         </div>
     </header>
-    <section class="u-align-center-lg u-align-center-md u-align-center-xl u-align-left-sm u-align-left-xs u-clearfix u-section-1" id="carousel_75f0">
-        <div class="u-clearfix u-sheet u-valign-middle u-sheet-1">
-            <h1 class="u-text u-text-1">Профиль</h1>
-            <p class="u-large-text u-text u-text-variant u-text-2">@Model.Status</p>
-            <div class="u-clearfix u-expanded-width u-layout-wrap u-layout-wrap-1">
-                <div class="u-layout">
-                    <div class="u-layout-row">
-                        <div class="u-container-style u-layout-cell u-size-20 u-layout-cell-1">
-                            <div class="u-container-layout u-container-layout-1">
-                                <h4 class="u-text u-text-3">Обо мне</h4>
-                                <p class="u-text u-text-default u-text-4">@Model.About</p>
-                                <p class="u-text u-text-palette-5-dark-2 u-text-5">
-                                    <a href="~/account/edit" class="u-border-1 u-border-palette-5-dark-2 u-btn u-button-link u-button-style u-none u-text-palette-5-dark-2 u-btn-1">Редактировать</a><br />
-                                    <a href="~/account/logout" class="u-border-1 u-border-palette-5-dark-2 u-btn u-button-link u-button-style u-none u-text-palette-5-dark-2 u-btn-1">Выйти</a>
-                                </p>
-                            </div>
-                            
+<section  class="container shadow-sm p-3 mb-5 bg-white rounded col-lg-12 u-align-center-lg u-align-center-md u-align-center-xl u-align-left-sm u-align-left-xs u-clearfix u-section-1" id="carousel_75f0">
+    <div class="u-clearfix u-sheet u-valign-middle u-sheet-1">
+        <h1 class="u-text u-text-1">Профиль</h1>
+        <p class="u-large-text u-text u-text-variant u-text-2">@Model.Status</p>
+        <div class="u-clearfix u-expanded-width u-layout-wrap u-layout-wrap-1">
+            <div class="u-layout">
+                <div class="u-layout-row">
+                    <div class="u-container-style u-layout-cell u-size-20 u-layout-cell-1">
+                        <div class="u-container-layout u-container-layout-1">
+                            <h4 class="u-text u-text-3">Обо мне</h4>
+                            <p class="u-text u-text-default u-text-4">@Model.About</p>
+                            <p class="u-text u-text-palette-5-dark-2 u-text-5">
+                                <a href="~/account/edit" style="margin-top:10px" class="btn btn-outline-dark write-article">Редактировать</a><br />
+                                <a href="~/account/logout" style="margin-top:10px" class="btn btn-outline-dark write-article">Выйти</a>
+                            </p>
                         </div>
-                        <div class="u-align-center-md u-align-left-sm u-align-left-xs u-container-style u-layout-cell u-size-20 u-layout-cell-2">
-                            <div class="u-container-layout u-valign-middle-lg u-valign-middle-xl u-valign-top-md u-valign-top-sm u-valign-top-xs u-container-layout-2">
-                                <div alt="" class="u-image u-image-circle u-image-1" data-image-width="700" data-image-height="700"></div>
-                            </div>
-                        </div>
-                        <div class="u-container-style u-layout-cell u-size-20 u-layout-cell-3">
-                            <div class="u-container-layout u-container-layout-3">
-                                <h4 class="u-text u-text-6">Подробнее</h4>
-                                <p class="u-text u-text-7">
-                                    <span style="font-weight: 700;">Имя: </span>
-                                    <br>@Model.NickName<br>
-                                    <span style="font-weight: 700;">Уровень решения задач: </span>
-                                    <br>
-                                    <span style="font-weight: 700;">
-                                        @Model.TaskRating<br>Местоположение:
-                                    </span>
-                                    <br>@Model.Location
-                                </p>
-                            </div>
+
+                    </div>
+                    <style>
+                        .avatar {
+                            height: 250px;
+                            width: 250px;
+                            margin-left: 80px;
+                            margin-top: 10px;
+                                
+                        }
+                    </style>
+                    <div class="u-align-center-md u-align-left-sm u-align-left-xs u-container-style u-layout-cell u-size-20 u-layout-cell-2">
+                        <img class="avatar img-thumbnail border border-dark" src="~/StaticFiles/@Model.AvatarLink" alt="Alternate Text" />
+                    </div>
+                    <div class="u-container-style u-layout-cell u-size-20 u-layout-cell-3">
+                        <div class="u-container-layout u-container-layout-3">
+                            <h4 class="u-text u-text-6">Подробнее</h4>
+                            <p class="u-text u-text-7">
+                                <span style="font-weight: 700;">Имя: </span>
+                                <br>@Model.NickName<br>
+                                <span style="font-weight: 700;">Уровень решения задач: </span>
+                                <br>
+                                <span style="font-weight: 700;">
+                                    @Model.TaskRating<br>Местоположение:
+                                </span>
+                                <br>@Model.Location
+                            </p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
 
-<footer class="u-align-center u-clearfix u-footer u-grey-80 u-footer" id="sec-0cc9"><div class="u-clearfix u-sheet u-sheet-1" style="">
-    <p class="u-small-text u-text u-text-variant u-text-1">Chesslab<br>Контакты<br>О нас
-    </p>
-</div></footer>
-<script class="u-script" type="text/javascript" src="~/js/jquery-1.9.1.min.js" defer=""></script>
-<script class="u-script" type="text/javascript" src="~/js/nicepage.js" defer=""></script>
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
-<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-<script src="~/js/site.js" asp-append-version="true"></script>
+
+    <footer style="background: white" class="u-align-center u-clearfix u-footer u-grey-80 u-footer" id="sec-0cc9">
+        <div class="u-clearfix u-sheet u-sheet-1" style="">
+            <p class="u-small-text u-text u-text-variant u-text-1"> <p style="color: black">Chesslab<br>Контакты<br>О нас</p>
+            </p>
+        </div>
+    </footer>
+
+    <script class="u-script" type="text/javascript" src="~/js/jquery-1.9.1.min.js" defer=""></script>
+    <script class="u-script" type="text/javascript" src="~/js/nicepage.js" defer=""></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
 </body>
 </html>
