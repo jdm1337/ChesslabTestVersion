@@ -95,7 +95,7 @@ namespace Chesslab.Controllers
                                 ModelState.AddModelError(String.Empty, error.Description);
                             }
 
-                            Console.WriteLine("result.succeseed=false");
+                            
                             return View(model);
 
                         }
@@ -105,21 +105,20 @@ namespace Chesslab.Controllers
 
                     else
                     {
-                        Console.WriteLine("Пользователь существует с ником таким");
+                        
                         //"Пользователь с таким ником уже существует"
                         return Content("Пользователь с таким ником уже существует");
                     }
                 }
                 else
                 {
-                    Console.WriteLine("Пользователь существует с email м");
+                    
                     //"Пользователь с таким email уже существует"
                     return Content("Пользователь с такими  уже существует");
                 }
             }
             else
             {
-                Console.WriteLine("bad");
                 //"Некорректные данные"
                 return View();
             }
@@ -204,13 +203,13 @@ namespace Chesslab.Controllers
         [RequestSizeLimit(4194304)]
         public async Task<IActionResult> Edit(EditViewModel editViewModel)
         {
-            Console.WriteLine(editViewModel.Location +1);
+            
             var user = await _userManager.GetUserAsync(User);
 
             if (editViewModel.NickName != null)
             {
                 var userByName = await _userRepository.GetByName(editViewModel.NickName);
-                Console.WriteLine(userByName);
+                
                 if(userByName == null)
                 {
                      await _userRepository.EditNickName(user, editViewModel.NickName);
@@ -225,7 +224,7 @@ namespace Chesslab.Controllers
 
             if(editViewModel.Location!= null)
             {
-                Console.WriteLine("we here");
+                
                 await _userRepository.EditLocation(user, editViewModel.Location);
                 await _userRepository.Save();
             }

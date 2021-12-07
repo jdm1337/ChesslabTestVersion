@@ -29,7 +29,7 @@ namespace Chesslab.Service
 
         public  async Task<ProfileViewModel> MapToProfileViewModel(User user)
         {
-            Console.WriteLine(_webHostEnvironment.ContentRootPath);
+            
             ProfileViewModel profileViewModel = new ProfileViewModel()
             {
                 
@@ -43,7 +43,7 @@ namespace Chesslab.Service
                 AvatarLink = user.Avatar
                 
             };
-            Console.WriteLine(profileViewModel.AvatarLink);
+            
             return profileViewModel;
         }
 

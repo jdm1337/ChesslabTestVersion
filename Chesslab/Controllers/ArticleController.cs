@@ -32,8 +32,7 @@ namespace Chesslab.Controllers
         [HttpPost]
         public async Task<IActionResult> Index(ArticleViewModel articleViewModel, int page=1)
         {
-            Console.WriteLine(1);
-            Console.WriteLine(articleViewModel);
+            
             var byParamsArticles = await _articleService.GetByParamsArticles(articleViewModel, page);
             return View(byParamsArticles);
         }
@@ -45,7 +44,7 @@ namespace Chesslab.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Publish(PubReadArticleViewModel viewModel)
+        public async Task<IActionResult> Publish(PubArticleViewModel viewModel)
         {
             var authorUser = await _userManager.GetUserAsync(User);
             viewModel.Article.AuthorName = authorUser.NickName;
@@ -56,7 +55,8 @@ namespace Chesslab.Controllers
         [HttpGet]
         public async Task<IActionResult> View(int articleId)
         {
-            return View();
+            var articleViewModel = await _articleService.ReadArticleViewModelBuilder(articleId);
+            return View(articleViewModel);
         }
 
 

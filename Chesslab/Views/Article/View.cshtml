@@ -1,0 +1,22 @@
+﻿@using Chesslab.ViewModels
+@model Chesslab.ViewModels.ReadArticleViewModel
+<div class="row">
+    <div class="col-xs-10 col-sm-7">
+        <div class="shadow-sm p-3 mb-5 bg-white rounded">
+            <h4>@Model.Article.Postname</h4>
+            <p class="font-weight-light">Автор статьи: @@@Model.Article.AuthorName</p>
+            <p>@Model.Content</p>
+        </div>
+    </div>
+    <div class="col-xs-10 col-sm-3">
+        <div class="shadow-sm p-3 mb-5 bg-white rounded">
+            <h4>Рекомендованные к изучению статьи</h4>
+            @foreach (Article article in Model.RecommendedArticles)
+            {
+                <div>
+                    <a href="~/article/view?articleId=@article.Id">@article.Postname</a>
+                </div>
+            }
+        </div>
+    </div>
+</div>

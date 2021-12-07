@@ -7,12 +7,12 @@ using Chesslab.Models;
 
 namespace Chesslab.ViewModels
 {
-    public class PubReadArticleViewModel
+    public class PubArticleViewModel
     {
         [Required(ErrorMessage = "Введите название статьи")]
         [MaxLength(50, ErrorMessage = "Максимальное количество символов для названия статьи 50 символов")]
         public string PostName { get; set; }
-        [Required(ErrorMessage = "Статья должна содрежать текст")]
+        [Required(ErrorMessage = "Статья должна содержать текст")]
         public string Content { get; set; }
         public Article Article {get; set; }
     }

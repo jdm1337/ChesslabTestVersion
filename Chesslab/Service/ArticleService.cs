@@ -31,10 +31,9 @@ namespace Chesslab.Service
 
         public async Task<ArticleViewModel> GetByParamsArticles(ArticleViewModel articleViewModel, int page)
         {
-            Console.WriteLine(articleViewModel.ArticleSearchViewModel.ChosenCategory);
-            Console.WriteLine(articleViewModel.ArticleSearchViewModel.ChosenPeriod);
+            
             List<int> defineChosenPeriodValue = await articleViewModel.ArticleSearchViewModel.DefineChosenPeriodValue();
-            var allArticles =  _appContext.articles
+            var allArticles =   _appContext.articles
                 .Where(article =>
                     (defineChosenPeriodValue[0] <= article.PublishDate.Year) &&
                     (article.PublishDate.Year <= defineChosenPeriodValue[1]))
@@ -60,7 +59,7 @@ namespace Chesslab.Service
 
         }
 
-        public async Task<bool> SaveArticle(PubReadArticleViewModel viewModel)
+        public async Task<bool> SaveArticle(PubArticleViewModel viewModel)
         {
             Article article = await ArticleBuilder(viewModel);
             bool downloaded = await _localStorageService.UploadArticle(article, viewModel);
@@ -69,8 +68,9 @@ namespace Chesslab.Service
 
         }
 
-        public async Task<Article> ArticleBuilder(PubReadArticleViewModel viewModel)
+        public async Task<Article> ArticleBuilder(PubArticleViewModel viewModel)
         {
+            
             Article article = new Article()
             {
                 Postname = viewModel.PostName,
@@ -82,6 +82,33 @@ namespace Chesslab.Service
             return article;
         }
 
+        public async Task<ReadArticleViewModel> ReadArticleViewModelBuilder(int articleId)
+        {
+            var currentArticle = await _appContext.articles.FindAsync(articleId);
+            //searching first 7 articles which have the same category with readable article
+            var recommendedArticles = await _appContext.articles
+                .Where(article => article.Categories == currentArticle.Categories)
+                .Where(article=> article.Id!= articleId)
+                .Take(7)
+                .ToListAsync();
+
+            return new ReadArticleViewModel()
+            {
+                Article = currentArticle,
+                RecommendedArticles = recommendedArticles,
+                Content = await _localStorageService.DownloadArticle(currentArticle)
+            };
+        }
+
+        public async Task<List<Article>> GetRecentArticles()
+        {
+            var countOfRecentArticles = 4;
+            var allArticles = await _appContext.articles.ToListAsync();
+            //take a few last articles from all list
+            var lastenArticle = allArticles.Skip(allArticles.Count - countOfRecentArticles).ToList();
+            return lastenArticle;
+
+        }
     }
     
 }

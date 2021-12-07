@@ -47,6 +47,7 @@ namespace Chesslab
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<LocalStorageService>();
             services.AddTransient<ArticleService>();
+            services.AddTransient<BestPlayersService>();
             services.AddIdentity<User, IdentityRole>(opts =>
                 {
                     opts.Password.RequiredLength = 5;   

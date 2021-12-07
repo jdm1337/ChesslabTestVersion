@@ -6,21 +6,31 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Chesslab.Service;
+using Chesslab.ViewModels;
 
 namespace Chesslab.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly BestPlayersService _bestPlayersService;
+        private readonly ArticleService _articleService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, BestPlayersService bestPlayersService, ArticleService articleService)
         {
             _logger = logger;
+            _bestPlayersService = bestPlayersService;
+            _articleService = articleService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            HomeIndexViewModel homeIndexViewModel = new HomeIndexViewModel()
+            {
+                RecentArticles = await _articleService.GetRecentArticles()
+            };
+            return View(homeIndexViewModel);
         }
 
         public IActionResult Privacy()
