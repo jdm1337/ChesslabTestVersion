@@ -10,7 +10,7 @@ namespace ParseApi.Services
         public async Task SendMessage(string email, string subject, string message)
         {
             var emailMessage = new MimeMessage();
-            emailMessage.From.Add(new MailboxAddress("ParseApi", "taramalytest@gmail.com"));
+            emailMessage.From.Add(new MailboxAddress("Chesslab", "taramalytest@gmail.com"));
             emailMessage.To.Add(new MailboxAddress("", email));
             emailMessage.Subject = subject;
             emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html)

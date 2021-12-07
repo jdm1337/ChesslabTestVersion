@@ -74,7 +74,7 @@ namespace Chesslab.Controllers
                                 new {userId = user.Id, code = code},
                                 protocol: HttpContext.Request.Scheme);
                             EmailService emailService = new EmailService();
-                            await _messageEmailService.SendMessage(model.Email, "Подтверждение аккаунта",
+                            await _messageEmailService.SendMessage(model.Email, "Подтверждение Регистрации",
                                 $"Подтвердите регистрацию, перейдя по ссылке: <a href='{callbackUrl}'>link</a>");
 
                             IdentityRole getRoleId = await _userRepository.GetRole(role);
