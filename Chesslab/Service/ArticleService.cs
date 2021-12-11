@@ -102,7 +102,7 @@ namespace Chesslab.Service
 
         public async Task<List<Article>> GetRecentArticles()
         {
-            var countOfRecentArticles = 4;
+            var countOfRecentArticles = 3;
             var allArticles = await _appContext.articles.ToListAsync();
             //take a few last articles from all list
             var lastenArticle = allArticles.Skip(allArticles.Count - countOfRecentArticles).ToList();

@@ -52,11 +52,11 @@
             <h3>Статьи</h3>
             <table class="table">
                 <thead class="thead-light">
-                    <tr>
-                        <th>Название</th>
-                        <th>Автор</th>
-                        <th>Дата написания</th>
-                    </tr>
+                <tr>
+                    <th>Название</th>
+                    <th>Автор</th>
+                    <th>Дата написания</th>
+                </tr>
                 </thead>
 
                 @foreach (Article a in Model.articles)
@@ -83,7 +83,7 @@
                 </a>
             }
         </div>
-        </div>
+    </div>
     <div class="col-xs-10 col-sm-3">
         <div class="shadow-sm p-3 mb-5 bg-white rounded">
             <h3>Поиск статей</h3>
@@ -115,5 +115,29 @@
         </div>
         <a class="btn btn-outline-dark write-article" href="~/article/write" role="button">Написать статью</a>
 
-        </div>
     </div>
+</div>
+<div class="row">
+    <div class="col-xs-10 col-sm-10 shadow-sm p-3 mb-5 bg-white rounded">
+        <h3>Дополнительные источники</h3>
+        <p>При изучении шахматных работ как на мастерском так и гроссмейстерском уровнях предстоит работа как с русскими, так и с зарубежными источниками.</p>
+        <p style="font-size: 20px">Список наиболее полезных и обширных источников:</p>
+        <dl class="row">
+        <dt class="col-sm-3"><a href="https://www.chess.com/articles">Сhess.com</a></dt>
+            <dd class="col-sm-9">Статьи на данном ресурсе представляют включают в себя немного развлекательной составляющей, при этом в них можно подчеркнуть много полезной информации.</dd>
+
+            <dt class="col-sm-3">
+                <a href="https://chessok.net/article/">Chessok.net</a>
+            </dt>
+        <dd class="col-sm-9">
+            Шахматные статьи на данном ресурсе представлены в виде задач и лаконичного описания идеи в приведённой работе.
+        </dd>
+
+            <dt class="col-sm-3">
+                <a href="https://chesswood.ru/articles">Chesswood.ru</a>
+            </dt>
+        <dd class="col-sm-9">Портал представляет статьи на различные около шахматные темы. Будет интерес шахматным новичкам и людям, интересующим около шахматной жизнью.</dd>
+        </dl>
+
+    </div>
+</div>

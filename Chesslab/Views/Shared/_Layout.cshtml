@@ -33,7 +33,7 @@
 <style>
     a {
         color: #0075B2; /* Цвет обычной ссылки */
-        text-decoration: none; /* Убираем подчёркивание у ссылок */
+        text-decoration: none; 
     }
     a:visited {
         color: #8F8E8E; /* Цвет посещённой ссылки */
@@ -41,7 +41,9 @@
     a:hover {
         color: #CE242B; /* Цвет ссылки при наведении */
         text-decoration: underline; /* Добавляем подчёркивание */
+
     }
+
 </style>
 <body style="background: #F0F3F7;" data-home-page-title="Главная" class="u-body">
 <header style="background: white" class="u-clearfix u-header u-header shadow-sm p-3 mb-5 bg-white rounded " id="sec-9d5b">
@@ -105,33 +107,15 @@
         @RenderBody()
     </main>
 </div>
-<section class="u-clearfix u-section-1" id="sec-6858">
-    <div class="u-clearfix u-sheet u-sheet-1">
-        <div class="u-clearfix u-expanded-width u-layout-wrap u-layout-wrap-1">
-            <div class="u-layout">
-                <div class="u-layout-row">
-                    <div class="u-container-style u-layout-cell u-size-12 u-layout-cell-1" style="color: black">
-                        <div class="u-container-layout u-container-layout-1"></div>
-                    </div>
-                    <div class="u-container-style u-layout-cell u-size-36 u-layout-cell-2" style="color: black">
-                        <div class="u-container-layout u-container-layout-2"></div>
-                    </div>
-                    <div class="u-container-style u-layout-cell u-size-12 u-layout-cell-3" style="color: black">
-                        <div class="u-container-layout u-container-layout-3"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 
 
 
-<footer style="background: white" class="u-align-center u-clearfix u-footer u-grey-80 u-footer shadow-sm p-3 mb-5 bg-white rounded " id="sec-0cc9">
+
+<footer style="background: white;" class="u-align-center u-clearfix u-footer u-grey-80 u-footer shadow-sm p-3 mb-5 bg-white rounded " id="sec-0cc9">
 
     <div class="u-clearfix u-sheet u-sheet-1" style="">
         <p class="u-small-text u-text u-text-variant u-text-1">
-            <p style="color: black">Chesslab<br>Контакты<br>О нас</p>
+            <p style="color: black"><a href="~/account/index">Chesslab</a> <br><a href="https://vk.com/sergeytaramaly">Контакты</a><br></p>
         </p>
     </div>
 </footer>

@@ -10,7 +10,7 @@ namespace Chesslab.ViewModels
     public class PubArticleViewModel
     {
         [Required(ErrorMessage = "Введите название статьи")]
-        [MaxLength(50, ErrorMessage = "Максимальное количество символов для названия статьи 50 символов")]
+        [MaxLength(150, ErrorMessage = "Максимальное количество символов для названия статьи 50 символов")]
         public string PostName { get; set; }
         [Required(ErrorMessage = "Статья должна содержать текст")]
         public string Content { get; set; }

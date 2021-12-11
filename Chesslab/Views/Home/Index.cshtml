@@ -39,9 +39,9 @@
     <h3>Недавние шахматные статьи от профессионалов</h3>
     @foreach (var article in Model.RecentArticles)
     {
-        <div class="col-xs-10 col-sm-4">
-            <a href="~/article/view?articleId=@article.Id">@article.Postname</a>
-            <p>@article.AuthorName</p>
+        <div class="border border-secondary rounded col-xs-10 col-sm-4" style="padding-left: 15px;">
+            <a href="~/article/view?articleId=@article.Id"><p class="text-center">@article.Postname</p></a>
+            <p class="text-center">@article.AuthorName</p>
         </div>
     }
 
