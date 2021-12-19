@@ -84,6 +84,7 @@ namespace Chesslab.Migrations
                     Postname = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AuthorId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     userId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    AuthorName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PublishDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LinkStorage = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Categories = table.Column<int>(type: "int", nullable: false)

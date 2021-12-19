@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Chesslab.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20211205102748_init")]
+    [Migration("20211211151803_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -29,6 +29,9 @@ namespace Chesslab.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("AuthorId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AuthorName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Categories")
