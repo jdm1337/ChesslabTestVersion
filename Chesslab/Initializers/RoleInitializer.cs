@@ -26,10 +26,6 @@ namespace Chesslab.Initializers
             {
                 await roleManager.CreateAsync(new IdentityRole("user"));
             }
-            if (await roleManager.FindByIdAsync("admin") == null)
-            {
-                await roleManager.CreateAsync(new IdentityRole("admin"));
-            }
 
             if (await userManager.FindByEmailAsync(adminEmail) == null)
             {

@@ -270,7 +270,7 @@ namespace Chesslab.Controllers
             var result = await _userManager.ConfirmEmailAsync(user, code);
             if (result.Succeeded)
             {
-                _signInManager.SignInAsync(user, true);
+                await _signInManager.SignInAsync(user, true);
                 return  RedirectToAction("Index", "Home");
             }
             else
