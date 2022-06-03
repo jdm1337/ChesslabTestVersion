@@ -1,8 +1,48 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@model Chesslab.ViewModels.HomeIndexViewModel
+<style>
+    .vl {
+        border-left: 6px solid black;
+        height: 150px;
+    }
+    .container {
+        width: device-width;
+    }
+</style>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container shadow-sm p-3 mb-5 bg-white rounded col-lg-12 row">
+    <div class="col-xs-10 col-sm-3">
+        <h1 class="display-4">Карлсен vs Непомнящий</h1>
+        
+    </div>
+    <div class="col-xs-10 col-sm-1">
+        <div class="vl"></div>
+    </div>
+    <div class="col-xs-10 col-sm-8">
+        <p class="lead">Магнус Карлсен сразится с Яном Непомнящим в матче чемпионата мира ФИДЕ по шахматам с призовым фондом 2 миллиона евро в Дубае! Начало игр 16:30 (07:30 Нью-Йорк, 12:30 Лондон, 13:30 Берлин, 18:00 Мумбаи)</p>
+    </div>
+
+
+</div>
+<div class="container shadow-sm p-3 mb-5 bg-white rounded col-lg-12 row">
+    <h3>Официальная трансляция матча и анализ от Гроссмейстера Сергея Шипова</h3>
+    <div class="col-xs-10 col-sm-6">
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/hrHwqJdqJis" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+        </iframe>
+
+    </div>
+    <div class="col-xs-10 col-sm-6">
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/9i-TtoLijCU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+        </iframe>
+    </div>
+</div>
+<div class="container shadow-sm p-3 mb-5 bg-white rounded col-lg-12 row">
+    <h3>Недавние шахматные статьи от профессионалов</h3>
+    @foreach (var article in Model.RecentArticles)
+    {
+        <div class="border border-secondary rounded col-xs-10 col-sm-4" style="padding-left: 15px;">
+            <a href="~/article/view?articleId=@article.Id"><p class="text-center">@article.Postname</p></a>
+            <p class="text-center">@article.AuthorName</p>
+        </div>
+    }
+
 </div>

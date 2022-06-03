@@ -6,8 +6,19 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Chesslab.Configurations;
+using Chesslab.Dao;
+using Chesslab.Models;
+using Chesslab.Service;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
+using ParseApi.Services;
 
 namespace Chesslab
 {
@@ -23,6 +34,32 @@ namespace Chesslab
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<StorageConfiguration>();
+            services.AddDbContext<ApplicationContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options => //CookieAuthenticationOptions
+                {
+                    options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
+                });
+            services.AddTransient<ProfileViewModelBuilder>();
+            services.AddTransient<IMessageEmailService, EmailService>();
+            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<LocalStorageService>();
+            services.AddTransient<ArticleService>();
+            services.AddTransient<BestPlayersService>();
+            services.AddIdentity<User, IdentityRole>(opts =>
+                {
+                    opts.Password.RequiredLength = 5;   
+                    opts.Password.RequireNonAlphanumeric = false;   
+                    opts.Password.RequireLowercase = false; 
+                    opts.Password.RequireUppercase = false; 
+                    opts.Password.RequireDigit = false; 
+
+                })
+                .AddEntityFrameworkStores<ApplicationContext>()
+                .AddDefaultTokenProviders();
+
             services.AddControllersWithViews();
         }
 
@@ -41,9 +78,17 @@ namespace Chesslab
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                FileProvider = new PhysicalFileProvider(
+                    Path.Combine(Directory.GetCurrentDirectory(), @"")),
+                RequestPath = new PathString("/StaticFiles")
+            });
+
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

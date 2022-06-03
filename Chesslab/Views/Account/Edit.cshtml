@@ -1,0 +1,37 @@
+﻿@model Chesslab.ViewModels.EditViewModel
+
+<style>
+    .form-group {
+        margin-top: 10px;
+    }
+    .form-group-3 {
+        margin-top: 10px;
+    }
+
+</style>
+<div class="container shadow-sm p-3 mb-5 bg-white rounded col-lg-8">
+    <h3>Редактирование</h3>
+    <form asp-action="Edit" asp-controller="Account" method="post" enctype="multipart/form-data">
+        <div asp-validation-summary="ModelOnly"></div>
+        <div class="form-group col-lg-6">
+            <label for="NickName">Имя пользователя</label>
+            <input type="text" class="form-control input" id="NickName" asp-for="NickName" placeholder="@Model.NickName" />
+        </div>
+        <div class="form-group col-lg-6">
+            <label for="Location">Местоположение</label>
+            <input type="text" class="form-control" id="Location" asp-for="Location" placeholder="@Model.Location" />
+        </div>
+        <div class="form-group col-lg-6">
+            <label for="UploadedAvatar">Изменить изображение</label>
+            <input type="file" class="form-control" id="UploadedAvatar" asp-for="UploadedAvatar" value="Загрузить" />
+        </div>
+        <div class="form-group col-lg-6">
+            <label for="About">Интересная информация о вас</label>
+            <textarea class="form-control" id="About" asp-for="About" rows="3"></textarea>
+        </div>
+        <div class="form-group-3">
+            <button class="btn btn-outline-dark" type="submit">Сохранить</button>
+        </div>
+
+    </form>
+</div>
